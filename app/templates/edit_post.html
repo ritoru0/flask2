@@ -13,9 +13,9 @@
 <body>
     <h1>Редактировать пост</h1>
     <form method="POST">
-        <p>Заголовок: <input type="text" name="title" value="{{ post.title }}"></p>
-        <p>Автор: <input type="text" name="author" value="{{ post.author }}"></p>
-        <p>Текст: <textarea name="body">{{ post.body }}</textarea></p>
+        <input type="text" name="title" placeholder="Заголовок" value="{{ post.title }}" required>
+        <textarea name="body" rows="5" placeholder="Текст статьи">{{ post.body }}</textarea>
+        <input type="text" name="author" placeholder="Автор" value="{{ post.author }}" required>
         <button type="submit">Сохранить</button>
     </form>
     <p><a href="{{ url_for('main.index') }}">← На главную</a></p>
