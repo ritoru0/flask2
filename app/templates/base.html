@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <title>{{ title or "Мой блог" }}</title>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: #e6f0fa; /* светлый голубой фон */
+            color: #0d3b66; /* темно-синий текст */
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #0077cc;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            background-color: #d0e4fd;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            border-radius: 8px 8px 0 0;
+        }
+
+        header div {
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        nav a {
+            margin-right: 20px;
+            text-decoration: none;
+            color: #005bbb;
+            font-weight: 600;
+            transition: color 0.3s, text-shadow 0.3s;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+            color: #003d66;
+            text-shadow: 0 0 2px #999;
+        }
+
+        h1, h2 {
+            color: #003366;
+            margin-top: 0;
+            font-family: 'Arial Black', sans-serif;
+        }
+
+        .flash {
+            padding: 10px 15px;
+            background-color: #a3c1f7;
+            border: 1px solid #2a61a0;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            font-size: 14px;
+          
+        }
+
+        .content {
+            padding: 20px;
+            background-color: #f9faff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+        }
+
+        
+        button {
+            background-color: #4a90e2;
+            border: none;
+            color: #fff;
+            cursor: pointer;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-size: 14px;
+            transition: background-color 0.3s, box-shadow 0.3s;
+        }
+
+        button:hover {
+            background-color: #357abd;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+        }
+
+    
+        .post {
+            border: 1px solid #a3c1f7;
+            background-color: #d7e4fb;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            margin-top: 20px;
+        }
+
+        .author {
+            font-style: italic;
+            color: #1f3b6f;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 25px;
+            font-weight: 600;
+            color: #003366;
+        }
+
+        .pagination a {
+            text-decoration: none;
+            color: #004a99;
+            padding: 6px 12px;
+            border: 1px solid #a3c1f7;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        .pagination a:hover {
+            background-color: #d7e4fb;
+        }
+
+    </style>
+</head>
+<body>
+
+<header>
+    <div><strong>Мой блог</strong></div>
+    <nav>
+        <a href="{{ url_for('main.index') }}">Главная</a>
+        {% if current_user.is_authenticated %}
+        <a href="{{ url_for('main.add_post') }}">Добавить</a>
+        <a href="{{ url_for('main.logout') }}">Выйти ({{ current_user.username }})</a>
+        {% else %}
+        <a href="{{ url_for('main.login') }}">Войти</a>
+        <a href="{{ url_for('main.register') }}">Регистрация</a>
+        {% endif %}
+    </nav>
+</header>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="flash">{{ message }}</div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+<div class="content">
+    {% block content %}
+    <!-- Здесь дочерние шаблоны вставят свой HTML -->
+    {% endblock %}
+</div>
+
+</body>
+</html>
